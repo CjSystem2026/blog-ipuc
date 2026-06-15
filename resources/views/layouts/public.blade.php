@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Blog IPUC') - Luz y Paz</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     <style>
         body { font-family: 'Inter', sans-serif; }
     </style>
@@ -18,8 +18,9 @@
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium">
                 <a href="/" class="hover:text-blue-600 transition">Inicio</a>
-                <a href="#" class="hover:text-blue-600 transition">Artículos</a>
-                <a href="#" class="hover:text-blue-600 transition">Testimonios</a>
+                <a href="{{ route('blog') }}" class="hover:text-blue-600 transition">Artículos</a>
+                <a href="{{ route('blog', ['type' => 'testimonial']) }}" class="hover:text-blue-600 transition">Testimonios</a>
+                <a href="{{ route('prayers.index') }}" class="hover:text-blue-600 transition">Peticiones</a>
                 <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Entrar</a>
             </div>
         </nav>

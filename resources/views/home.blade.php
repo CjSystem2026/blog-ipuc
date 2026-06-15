@@ -19,16 +19,96 @@
     </div>
 </div>
 
-<section id="recientes" class="max-w-7xl mx-auto px-4 py-20">
-    <h2 class="text-3xl font-serif mb-12 text-center text-slate-800">Recientemente publicado</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-        <!-- Placeholder para artículos -->
-        <div class="p-6 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-            <div class="h-48 bg-slate-100 rounded-xl mb-4"></div>
-            <h3 class="text-xl font-bold mb-2">Iniciando nuestro camino</h3>
-            <p class="text-slate-600 text-sm mb-4">Un breve mensaje de bienvenida a este nuevo portal...</p>
-            <a href="#" class="text-blue-600 font-semibold text-sm">Leer más &rarr;</a>
-        </div>
+{{-- Versículo del Día --}}
+<div class="bg-gradient-to-r from-blue-700 to-indigo-800 py-14">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+        <p class="text-blue-200 uppercase tracking-widest text-xs font-bold mb-6">✦ Versículo del Día ✦</p>
+        <blockquote class="text-white text-2xl md:text-3xl font-serif italic leading-relaxed mb-6">
+            "{{ $verse['text'] }}"
+        </blockquote>
+        <cite class="text-blue-300 font-semibold text-sm tracking-wide not-italic">— {{ $verse['reference'] }}</cite>
     </div>
+</div>
+
+<section id="recientes" class="max-w-7xl mx-auto px-4 py-20">
+    <h2 class="text-4xl font-serif mb-8 text-center text-slate-800">Mensajes Recientes</h2>
+
+    {{-- Filtro por Categoría --}}
+    @if($categories->isNotEmpty())
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <a href="{{ route('blog') }}"
+           class="px-5 py-2 rounded-full text-sm font-semibold border border-slate-200 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200">
+            Todos
+        </a>
+        @foreach($categories as $category)
+        <a href="{{ route('blog', ['category' => $category->slug ?? $category->id]) }}"
+           class="px-5 py-2 rounded-full text-sm font-semibold border border-slate-200 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200">
+            {{ $category->name }}
+            <span class="ml-1 text-xs opacity-60">({{ $category->posts_count }})</span>
+        </a>
+        @endforeach
+    </div>
+    @endif
+
+    <div class="grid md:grid-cols-3 gap-10">
+        @foreach($posts as $post)
+        <article class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <div class="aspect-video bg-slate-100 relative overflow-hidden">
+                @if($post->image)
+                    <img src="{{ $post->image }}" alt="{{ $post->title }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500">
+                @else
+                    <div class="w-full h-full flex items-center justify-center text-slate-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                @endif
+                <div class="absolute top-4 left-4">
+                    <span class="bg-white/90 backdrop-blur-sm text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                        {{ $post->category->name }}
+                    </span>
+                </div>
+            </div>
+            <div class="p-8">
+                <h3 class="text-2xl font-serif font-bold mb-3 text-slate-900 group-hover:text-blue-600 transition-colors">
+                    {{ $post->title }}
+                </h3>
+                <p class="text-slate-600 text-sm mb-6 line-clamp-3 leading-relaxed">
+                    {{ $post->excerpt ?? Str::limit(strip_tags($post->body), 120) }}
+                </p>
+                <div class="flex items-center justify-between mt-auto pt-6 border-t border-slate-50">
+                    <span class="text-xs text-slate-400 font-medium">
+                        {{ $post->published_at->format('d M, Y') }}
+                    </span>
+                    <a href="{{ route('post.show', $post->slug) }}" class="text-blue-600 font-bold text-sm flex items-center gap-1 group/link">
+                        Leer más 
+                        <span class="group-hover/link:translate-x-1 transition-transform">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </article>
+        @endforeach
+        
+        @if($posts->isEmpty())
+        <div class="col-span-full py-20 text-center">
+            <div class="text-slate-300 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 2v4a1 1 0 001 1h4" />
+                </svg>
+            </div>
+            <p class="text-slate-500 font-serif italic text-lg">Próximamente más reflexiones de Luz y Paz...</p>
+        </div>
+        @endif
+    </div>
+
+    {{-- Botón Ver Todos --}}
+    <div class="mt-20 mb-12 text-center">
+        <a href="{{ route('blog') }}" class="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+            Explorar todos los mensajes
+            <span class="text-blue-300">&rarr;</span>
+        </a>
+    </div>
+
 </section>
 @endsection

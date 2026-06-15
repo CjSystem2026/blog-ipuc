@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'excerpt', 'body', 'image',
+        'title', 'type', 'slug', 'excerpt', 'body', 'image',
         'is_published', 'published_at', 'category_id', 'user_id'
     ];
 
@@ -21,8 +22,16 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Scope a query to only include published posts.
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', true);
     }
 }

@@ -22,8 +22,9 @@ const showSlot = ref(props.show);
 
 watch(
     () => props.show,
-    () => {
-        if (props.show) {
+    (newValue) => {
+        console.log('Modal show prop changed:', newValue);
+        if (newValue) {
             document.body.style.overflow = 'hidden';
             showSlot.value = true;
 
@@ -94,7 +95,7 @@ const maxWidthClass = computed(() => {
                 <div
                     v-show="show"
                     class="fixed inset-0 transform transition-all"
-                    @click="close"
+                    @click.self="close"
                 >
                     <div
                         class="absolute inset-0 bg-gray-500 opacity-75"
