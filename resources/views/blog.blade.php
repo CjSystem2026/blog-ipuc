@@ -1,25 +1,38 @@
 @extends('layouts.public')
 
-@section('title', 'Todos los Artículos')
+@section('title', $pageTitle)
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-16">
 
     {{-- Encabezado --}}
     <div class="text-center mb-10">
-        <h1 class="text-5xl font-serif font-bold text-slate-900 mb-4">Todos los Mensajes</h1>
-        <p class="text-slate-500 text-lg max-w-xl mx-auto">Reflexiones, testimonios y estudios bíblicos para tu crecimiento espiritual.</p>
+        <h1 class="text-5xl font-serif font-bold text-slate-900 mb-4">{{ $pageTitle }}</h1>
+        <p class="text-slate-500 text-lg max-w-xl mx-auto">
+            {{ $activeType === 'testimonial' ? 'Historias de fe y gratitud de nuestra comunidad.' : 'Reflexiones, testimonios y estudios bíblicos para tu crecimiento espiritual.' }}
+        </p>
     </div>
+
+    @if(session('status'))
+        <div class="max-w-xl mx-auto bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-2xl mb-12 flex items-center gap-4 shadow-sm">
+            <div class="bg-green-100 p-2 rounded-full text-green-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <p class="text-sm font-medium">{{ session('status') }}</p>
+        </div>
+    @endif
 
     {{-- Filtro por Categoría --}}
     @if(isset($categories) && $categories->isNotEmpty())
     <div class="flex flex-wrap justify-center gap-3 mb-12">
-        <a href="{{ route('blog') }}"
+        <a href="{{ route('blog', ['type' => $activeType]) }}"
            class="px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-200 {{ !$activeCategoryId ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-200 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600' }}">
             Todos
         </a>
         @foreach($categories as $category)
-        <a href="{{ route('blog', ['category' => $category->id]) }}"
+        <a href="{{ route('blog', ['category' => $category->id, 'type' => $activeType]) }}"
            class="px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-200 {{ $activeCategoryId == $category->id ? 'bg-blue-600 text-white border-blue-600' : 'border-slate-200 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600' }}">
             {{ $category->name }}
             <span class="ml-1 text-xs opacity-70">({{ $category->posts_count }})</span>

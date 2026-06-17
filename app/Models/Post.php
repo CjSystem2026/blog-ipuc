@@ -34,4 +34,20 @@ class Post extends Model
     {
         return $query->where('is_published', true);
     }
+
+    /**
+     * Scope a query to only include articles.
+     */
+    public function scopeArticles($query)
+    {
+        return $query->where('type', 'article');
+    }
+
+    /**
+     * Scope a query to only include testimonials.
+     */
+    public function scopeTestimonials($query)
+    {
+        return $query->where('type', 'testimonial');
+    }
 }

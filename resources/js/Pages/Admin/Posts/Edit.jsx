@@ -10,6 +10,7 @@ import Checkbox from '@/Components/Checkbox';
 export default function Edit({ post, categories }) {
     const { data, setData, put, processing, errors } = useForm({
         title: post.title,
+        type: post.type || 'article',
         category_id: post.category_id,
         excerpt: post.excerpt || '',
         body: post.body,
@@ -18,14 +19,14 @@ export default function Edit({ post, categories }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route('posts.update', post.id));
+        put(route('admin.posts.update', post.id));
     };
 
     return (
         <AuthenticatedLayout
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Editar Artículo</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Editar {data.type === 'testimonial' ? 'Testimonio' : 'Artículo'}</h2>}
         >
-            <Head title="Editar Artículo" />
+            <Head title={`Editar ${data.type === 'testimonial' ? 'Testimonio' : 'Artículo'}`} />
 
             <div className="py-12">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
@@ -37,17 +38,28 @@ export default function Edit({ post, categories }) {
                                 <InputError message={errors.title} className="mt-2" />
                             </div>
 
-                            <div>
-                                <InputLabel htmlFor="category_id" value="Categoría" />
-                                <select id="category_id" value={data.category_id} onChange={(e) => setData('category_id', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
-                                    <option value="" disabled>Selecciona una categoría</option>
-                                    {categories.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <InputError message={errors.category_id} className="mt-2" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <InputLabel htmlFor="type" value="Tipo de Contenido" />
+                                    <select id="type" value={data.type} onChange={(e) => setData('type', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                        <option value="article">Artículo</option>
+                                        <option value="testimonial">Testimonio</option>
+                                    </select>
+                                    <InputError message={errors.type} className="mt-2" />
+                                </div>
+
+                                <div>
+                                    <InputLabel htmlFor="category_id" value="Categoría" />
+                                    <select id="category_id" value={data.category_id} onChange={(e) => setData('category_id', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                        <option value="" disabled>Selecciona una categoría</option>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <InputError message={errors.category_id} className="mt-2" />
+                                </div>
                             </div>
 
                             <div>
@@ -70,7 +82,7 @@ export default function Edit({ post, categories }) {
                             </div>
 
                             <div className="flex items-center justify-end gap-4 border-t pt-6">
-                                <Link href={route('posts.index')}>
+                                <Link href={route('admin.posts.index')}>
                                     <SecondaryButton>Cancelar</SecondaryButton>
                                 </Link>
                                 <PrimaryButton disabled={processing}>Guardar Cambios</PrimaryButton>

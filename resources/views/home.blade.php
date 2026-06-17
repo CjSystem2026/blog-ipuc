@@ -110,5 +110,45 @@
         </a>
     </div>
 
+    {{-- Sección de Interacción / Comunidad --}}
+    <div class="mt-24 bg-slate-50 rounded-[3rem] p-8 md:p-16 border border-slate-200">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">Caminemos Juntos</h2>
+                <p class="text-slate-600">En Luz y Paz creemos en el poder de la unidad y el testimonio. ¿Cómo podemos acompañarte hoy?</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                {{-- Tarjeta Peticiones --}}
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Peticiones de Oración</h3>
+                    <p class="text-slate-500 text-sm mb-6">¿Necesitas oración? No estás solo. Comparte tu motivo y nuestra comunidad intercederá por ti.</p>
+                    <a href="{{ route('prayers.index') }}" class="text-blue-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                        Enviar mi petición <span>&rarr;</span>
+                    </a>
+                </div>
+
+                {{-- Tarjeta Testimonios --}}
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Compartir victoria</h3>
+                    <p class="text-slate-500 text-sm mb-6">¿Dios ha hecho un milagro en tu vida? Tu historia puede fortalecer la fe de otros hermanos.</p>
+                    <a href="{{ route('testimonials.share') }}" class="text-indigo-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                        Contar mi testimonio <span>&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 @endsection

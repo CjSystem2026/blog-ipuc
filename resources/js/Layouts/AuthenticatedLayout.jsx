@@ -31,16 +31,16 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                                 <NavLink
-                                    href={route('categories.index')}
-                                    active={route().current('categories.*')}
+                                    href={route('admin.categories.index')}
+                                    active={route().current('admin.categories.*')}
                                 >
                                     Categorías
                                 </NavLink>
                                 <NavLink
-                                    href={route('posts.index')}
-                                    active={route().current('posts.*')}
+                                    href={route('admin.posts.index')}
+                                    active={route().current('admin.posts.*')}
                                 >
-                                    Artículos
+                                    Contenido
                                 </NavLink>
                             </div>
                         </div>
@@ -147,16 +147,16 @@ export default function AuthenticatedLayout({ header, children }) {
                             Dashboard
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            href={route('categories.index')}
-                            active={route().current('categories.*')}
+                            href={route('admin.categories.index')}
+                            active={route().current('admin.categories.*')}
                         >
                             Categorías
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            href={route('posts.index')}
-                            active={route().current('posts.*')}
+                            href={route('admin.posts.index')}
+                            active={route().current('admin.posts.*')}
                         >
-                            Artículos
+                            Contenido
                         </ResponsiveNavLink>
                     </div>
 

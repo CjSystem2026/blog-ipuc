@@ -38,6 +38,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'type' => 'required|string|in:article,testimonial',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|string',
             'body' => 'required|string',
@@ -48,6 +49,7 @@ class PostController extends Controller
 
         $request->user()->posts()->create([
             'title' => $validated['title'],
+            'type' => $validated['type'],
             'slug' => Str::slug($validated['title']),
             'category_id' => $validated['category_id'],
             'excerpt' => $validated['excerpt'],
@@ -56,7 +58,7 @@ class PostController extends Controller
             'published_at' => $isPublished ? now() : null,
         ]);
 
-        return redirect()->route('posts.index')->with('message', 'Artículo creado.');
+        return redirect()->route('admin.posts.index')->with('message', 'Contenido creado.');
     }
 
     /**
@@ -77,6 +79,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'type' => 'required|string|in:article,testimonial',
             'category_id' => 'required|exists:categories,id',
             'excerpt' => 'nullable|string',
             'body' => 'required|string',
@@ -87,6 +90,7 @@ class PostController extends Controller
 
         $post->update([
             'title' => $validated['title'],
+            'type' => $validated['type'],
             'slug' => Str::slug($validated['title']),
             'category_id' => $validated['category_id'],
             'excerpt' => $validated['excerpt'],
@@ -95,7 +99,7 @@ class PostController extends Controller
             'published_at' => ($isPublished && !$post->is_published) ? now() : $post->published_at,
         ]);
 
-        return redirect()->route('posts.index')->with('message', 'Artículo actualizado.');
+        return redirect()->route('admin.posts.index')->with('message', 'Contenido actualizado.');
     }
 
     /**
@@ -105,6 +109,6 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->back()->with('message', 'Artículo eliminado.');
+        return redirect()->back()->with('message', 'Contenido eliminado.');
     }
 }

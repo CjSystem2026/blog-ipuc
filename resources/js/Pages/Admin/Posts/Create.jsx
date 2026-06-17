@@ -10,6 +10,7 @@ import Checkbox from '@/Components/Checkbox';
 export default function Create({ categories }) {
     const { data, setData, post, processing, errors } = useForm({
         title: '',
+        type: 'article',
         category_id: '',
         excerpt: '',
         body: '',
@@ -18,7 +19,7 @@ export default function Create({ categories }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('posts.store'));
+        post(route('admin.posts.store'));
     };
 
     return (
@@ -37,17 +38,28 @@ export default function Create({ categories }) {
                                 <InputError message={errors.title} className="mt-2" />
                             </div>
 
-                            <div>
-                                <InputLabel htmlFor="category_id" value="Categoría" />
-                                <select id="category_id" value={data.category_id} onChange={(e) => setData('category_id', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
-                                    <option value="" disabled>Selecciona una categoría</option>
-                                    {categories.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <InputError message={errors.category_id} className="mt-2" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <InputLabel htmlFor="type" value="Tipo de Contenido" />
+                                    <select id="type" value={data.type} onChange={(e) => setData('type', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                        <option value="article">Artículo</option>
+                                        <option value="testimonial">Testimonio</option>
+                                    </select>
+                                    <InputError message={errors.type} className="mt-2" />
+                                </div>
+
+                                <div>
+                                    <InputLabel htmlFor="category_id" value="Categoría" />
+                                    <select id="category_id" value={data.category_id} onChange={(e) => setData('category_id', e.target.value)} className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                        <option value="" disabled>Selecciona una categoría</option>
+                                        {categories.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <InputError message={errors.category_id} className="mt-2" />
+                                </div>
                             </div>
 
                             <div>
@@ -70,10 +82,10 @@ export default function Create({ categories }) {
                             </div>
 
                             <div className="flex items-center justify-end gap-4 border-t pt-6">
-                                <Link href={route('posts.index')}>
+                                <Link href={route('admin.posts.index')}>
                                     <SecondaryButton>Cancelar</SecondaryButton>
                                 </Link>
-                                <PrimaryButton disabled={processing}>Crear Artículo</PrimaryButton>
+                                <PrimaryButton disabled={processing}>Crear Contenido</PrimaryButton>
                             </div>
                         </form>
                     </div>
