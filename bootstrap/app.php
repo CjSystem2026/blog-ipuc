@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
         $middleware->alias([
             'inertia' => \App\Http\Middleware\HandleInertiaRequests::class,
             'can_access_admin' => \App\Http\Middleware\EnsureUserCanAccessAdmin::class,
