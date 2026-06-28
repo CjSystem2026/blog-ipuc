@@ -1,5 +1,6 @@
 [build]
 builder = "RAILPACK"
 
-[deploy]
-preDeployCommand = "php artisan migrate --force"
+# [deploy]
+# preDeployCommand = "php artisan migrate --force"
+
